@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class PickUpObjects : MonoBehaviour
 {
+    [Header("Throwing Values")]
+    public float throwSpeed;
+    public float maxThrowSpeed;
+    public float throwMagnitude;
 
-    public float throwSpeed = 10;
-
+    [Header("Bools")]
+    public bool mouseHeld;
     public bool canHold = true;
 
+    [Header("Misc.")]
     public GameObject pickUp;
-
     //Helps the pickup to find a place
     public Transform guide;
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (canHold == false)
@@ -23,6 +28,12 @@ public class PickUpObjects : MonoBehaviour
             else
                 Pickup();
         }
+        */
+
+        if(canHold == false){
+            throw_speed();
+        } else if(Input.GetKeyDown(KeyCode.E)) { Pickup(); }
+
     }
 
     private void OnTriggerEnter(Collider col)
@@ -82,5 +93,22 @@ public class PickUpObjects : MonoBehaviour
         //Unparent pickUp
         guide.GetChild(0).parent = null;
         canHold = true;
+    }
+
+    void throw_speed(){
+        if(Input.GetMouseButton(0)){
+            mouseHeld = true;
+        }
+
+        if (mouseHeld == true){
+            throwSpeed += throwMagnitude;
+        }
+
+        if(Input.GetMouseButtonUp(0) && mouseHeld == true){ // Call throw_drop function and reset values
+            throw_drop();
+            throwSpeed = 0f;
+            mouseHeld = false;
+        }
+
     }
 }
