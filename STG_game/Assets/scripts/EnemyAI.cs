@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Patroling()
     {
-        Debug.Log("Enemy patroling...");
+        //Debug.Log("Enemy patroling...");
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -69,13 +69,13 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasePlayer()
     {
-        Debug.Log("Enemy chasing!");
+        //Debug.Log("Enemy chasing!");
         agent.SetDestination(player.position);
     }
 
     private void AttackPlayer()
     {
-        Debug.Log("Enemy attacking!");
+        //Debug.Log("Enemy attacking!");
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 

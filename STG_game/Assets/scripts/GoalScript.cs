@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class GoalScript : MonoBehaviour
 {
 
@@ -27,6 +28,19 @@ public class GoalScript : MonoBehaviour
         crossHair.SetActive(false);
         roundFinished.SetActive(true);
         goldCollectedText.text = "Gold collected: " + cart.GetComponent<CartScript>().cartGoldAmount;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    //only for moving to the next level or shop
+
+    public void loadNextLevel()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void loadShopScene()
+    {
+        SceneManager.LoadScene("Shop");
     }
 
 }
