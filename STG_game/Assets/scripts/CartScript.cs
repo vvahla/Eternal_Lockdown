@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class CartScript : MonoBehaviour
 {
     public Transform cart;
     public float cartSpeed;
     public float cartRadius;
     public bool isCartOccupied;
+
+    //Villen
+    public int cartGoldAmount;
+    public Text goldAmountText;
 
     // Start is called before the first frame update
     void Start(){
@@ -42,6 +46,18 @@ public class CartScript : MonoBehaviour
         Gizmos.color = Color.red;
         if (cart != null){
             Gizmos.DrawSphere(cart.transform.position, cartRadius);
+        }
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("Cart collided with: " + col.gameObject.tag);
+
+        if (col.gameObject.tag == "pickup")
+        {
+            cartGoldAmount++;
+            Destroy(col.gameObject);
+            goldAmountText.text = "Gold: " + cartGoldAmount;
         }
     }
 
