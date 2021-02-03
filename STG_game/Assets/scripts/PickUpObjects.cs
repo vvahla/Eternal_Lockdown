@@ -18,6 +18,8 @@ public class PickUpObjects : MonoBehaviour
     //Helps the pickup to find a place
     public Transform guide;
 
+    public GameObject throwUI;
+
     void Update()
     {
         /*
@@ -59,6 +61,8 @@ public class PickUpObjects : MonoBehaviour
         if (!pickUp)
             return;
 
+        throwUI.SetActive(true);
+
         //set the pickup parent to guide
         pickUp.transform.SetParent(guide);
 
@@ -81,6 +85,8 @@ public class PickUpObjects : MonoBehaviour
         if (!pickUp)
             return;
 
+        throwUI.SetActive(false);
+
         pickUp.GetComponent<Rigidbody>().isKinematic = false;
 
         //Set Gravity to true again.
@@ -96,7 +102,7 @@ public class PickUpObjects : MonoBehaviour
     }
 
     void throw_speed(){
-        if(Input.GetMouseButton(0)){
+        if(Input.GetMouseButton(1)){
             mouseHeld = true;
         }
 
@@ -104,7 +110,7 @@ public class PickUpObjects : MonoBehaviour
             throwSpeed += throwMagnitude;
         }
 
-        if(Input.GetMouseButtonUp(0) && mouseHeld == true){ // Call throw_drop function and reset values
+        if(Input.GetMouseButtonUp(1) && mouseHeld == true){ // Call throw_drop function and reset values
             throw_drop();
             throwSpeed = 0f;
             mouseHeld = false;
