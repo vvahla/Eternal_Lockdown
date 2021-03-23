@@ -81,7 +81,7 @@ public class GunScript : MonoBehaviour
         isReloading = false;
     }
 
-    void Shoot()
+    public void Shoot()
     {
         muzzleFlash.Play();
 
@@ -92,6 +92,7 @@ public class GunScript : MonoBehaviour
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             Debug.Log(hit.transform.name);
+            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward, Color.red);
 
             Target target = hit.transform.GetComponent<Target>();
             if(target != null)
