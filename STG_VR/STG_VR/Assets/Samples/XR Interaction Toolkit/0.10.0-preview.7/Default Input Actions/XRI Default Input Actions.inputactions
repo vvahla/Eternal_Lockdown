@@ -171,7 +171,7 @@
                 {
                     "name": "",
                     "id": "79634234-07c9-488b-98bd-7d83eb6895c5",
-                    "path": "<XRController>/pointerRotation",
+                    "path": "<XRController>{LeftHand}/pointerRotation",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
