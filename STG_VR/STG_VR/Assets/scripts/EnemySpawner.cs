@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             Instantiate(enemy);
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(7f);
         }
     }
 }
