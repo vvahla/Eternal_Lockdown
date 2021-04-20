@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
 
     public float playerHealth = 100f;
 
-    public GameObject deadText;
+    public GameObject rsObj;
 
-    public Text healthText;
+    private RoundSystem rs;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        rs = rsObj.GetComponent<RoundSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        healthText.text = "Health: " + playerHealth;
+        Debug.Log("Health: " + playerHealth); 
 
         if(playerHealth <= 0)
         {
@@ -31,21 +31,16 @@ public class PlayerHealth : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision col)
-    {
-        if(col.collider.tag == "ammo")
-        {
-            playerHealth -= 10;
-        }
-    }
-
     private void Die()
     {
         playerHealth = 0;
-        Time.timeScale = 0;
-        deadText.SetActive(true);
-        GameObject.Find("Crosshair").SetActive(false);
-        Cursor.lockState = CursorLockMode.None;
+
+        PlayerPrefs.SetInt("score", rs.score);
+
+        if (rs.score > PlayerPrefs.GetInt("highscore", 0))
+            PlayerPrefs.SetInt("highscore", rs.score);
+
+        SceneManager.LoadScene(1);
     }
 
 }

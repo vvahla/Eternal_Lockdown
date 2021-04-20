@@ -1,6 +1,7 @@
-
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem.XR;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
 
     public LayerMask groundLayer, playerLayer;
+
+    public PlayerHealth ph;
+
+    public Animator anim;
+
+    public XRRig xr;
 
     //Patroling
     public Vector3 walkPoint;
@@ -27,6 +34,10 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         player = GameObject.Find("XR Rig").transform;
+        xr = GameObject.Find("XR Rig").GetComponent<XRRig>();
+        ph = GameObject.Find("XR Rig").GetComponent<PlayerHealth>();
+        //player = new Vector3(xr.rigInCameraSpacePos.x, xr.rigInCameraSpacePos.y, xr.rigInCameraSpacePos.z);
+        //player = xr.rig.transform.position;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -38,11 +49,12 @@ public class EnemyAI : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        //if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
 
     private void Patroling()
     {
+        anim.SetBool("isAttacking", false);
         //Debug.Log("Enemy patroling...");
         if (!walkPointSet) SearchWalkPoint();
 
@@ -69,25 +81,25 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasePlayer()
     {
+        anim.SetBool("isAttacking", false);
         //Debug.Log("Enemy chasing!");
         agent.SetDestination(player.position);
     }
 
     private void AttackPlayer()
     {
-        //Debug.Log("Enemy attacking!");
+        Debug.Log("Enemy attacking!");
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
 
+        anim.SetBool("isAttacking", true);
+
         if (!alreadyAttacked)
         {
             ///Attack code here
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 4f, ForceMode.Impulse);
-
+            ph.playerHealth -= 10f;
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
