@@ -1,1 +1,1 @@
-# STG
+# VR Zombie survival
